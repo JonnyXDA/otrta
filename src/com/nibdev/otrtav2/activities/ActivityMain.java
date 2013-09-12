@@ -59,6 +59,7 @@ public class ActivityMain extends FragmentActivity {
 	private DrawerAdapter mDrawerAdapter;
 	private ProgressMessageBar mSyncProgressBar;
 	private boolean mInitDone;
+    private OnBackKeyListener mBackKeyListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +221,7 @@ public class ActivityMain extends FragmentActivity {
 	public interface OnBackKeyListener{
 		boolean handlesBackKey();
 	}
-	private OnBackKeyListener mBackKeyListener;
+
 	public void setOnBackKeyListener(OnBackKeyListener listener){
 		mBackKeyListener = listener;
 	}
@@ -248,6 +249,11 @@ public class ActivityMain extends FragmentActivity {
 				return;
 			}
 		}
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            if (getFragmentManager().popBackStackImmediate()) {
+                return;
+            }
+        }
 		super.onBackPressed();
 	}
 
