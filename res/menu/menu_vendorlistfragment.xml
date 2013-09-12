@@ -8,6 +8,11 @@
         android:title="@string/action_search">
     </item>
     <item
+        android:id="@+id/action_all_off"
+        android:icon="@drawable/ic_action_off_light"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_all_off"/>
+    <item
         android:id="@+id/action_sync"
         android:icon="@drawable/ic_menu_refresh"
         android:showAsAction="never"

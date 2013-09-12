@@ -1,7 +1,7 @@
 package com.nibdev.otrtav2.view.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +32,7 @@ public class FragmentModelList extends Fragment {
 		int vendorId = getArguments().getInt("ID");
 		ModelListAdapter mla = new ModelListAdapter(vendorId);
 		mla.setOnModelClickListener(mOnModelClickListner);
+        mELVModels.setGroupIndicator(null);
 		mELVModels.setAdapter(mla);
 		
 		

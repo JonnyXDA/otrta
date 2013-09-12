@@ -10,7 +10,7 @@
             android:title="Learning Timeout" />
     </PreferenceCategory>
     <PreferenceCategory android:title="All off" >
-         <EditTextPreference
+        <EditTextPreference
             android:defaultValue="1"
             android:key="@string/pref_alloff_delayfactor"
             android:numeric="decimal"
@@ -31,12 +31,12 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Sync" >
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_startup_sync"
             android:summary="Synchronize database on startup (download new vendors, models, codes, etc)"
             android:title="Sync DB on appstart" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_startup_updatecheck"
             android:summary="Check for new version on startup"
             android:title="Update Check" />

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -14,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -111,6 +111,32 @@ public class FragmentLearn extends Fragment implements OnCodeLearnedListener {
 		OTRTAService.getInstance().getIrSender().setOnCodeLearnedListener(null);
 	}
 
+    @Override
+    public void onCodeLearned(HtcIrData data, String message) {
+        OTRTAService.getInstance().getIrSender().setOnCodeLearnedListener(null);
+        mBtLearn.setEnabled(true);
+        mHoloProgress.setVisibility(View.INVISIBLE);
+
+        if (mCountdownTask != null) {
+            try {
+                mCountdownTask.cancel(false);
+            } catch (Exception ignore) {
+            }
+        }
+
+        if (data == null) {
+            mTvStatus.setText(message);
+            mTvStatus.setBackgroundColor(0xA0FF0000);
+            if (mCbAutolearn.isChecked()) {
+                startLearning();
+            } else {
+
+            }
+        } else {
+            mLearnedCode = data;
+            switchToUploadView();
+        }
+    }
 
 	private void initViews(){
 		//hide uploadfields, progress,
@@ -215,34 +241,6 @@ public class FragmentLearn extends Fragment implements OnCodeLearnedListener {
 		sud.codedata = Code.fromHTCData(0, mLearnedCode);
 		sud.ca = new CodeAllocation(0, sud.codedata.getID(), m.getID(), ctId);
 		return sud;
-	}
-
-
-	@Override
-	public void onCodeLearned(HtcIrData data, String message) {
-		OTRTAService.getInstance().getIrSender().setOnCodeLearnedListener(null);
-		mBtLearn.setEnabled(true);
-		mHoloProgress.setVisibility(View.INVISIBLE);
-
-		if (mCountdownTask != null){
-			try{
-				mCountdownTask.cancel(false);
-			}catch (Exception ignore) {}
-		}
-
-		if (data == null){
-			mTvStatus.setText(message);
-			mTvStatus.setBackgroundColor(0xA0FF0000);
-			if (mCbAutolearn.isChecked()){
-				startLearning();							
-			}else{
-
-			}
-		}else{
-			mLearnedCode = data;
-			switchToUploadView();
-		}
-
 	}
 
 
@@ -595,7 +593,5 @@ public class FragmentLearn extends Fragment implements OnCodeLearnedListener {
 		public int ctId;
 		public int dtId;
 	}
-
-
 
 }

@@ -3,9 +3,10 @@ package com.nibdev.otrtav2.view.fragments;
 import java.util.Map;
 
 import android.animation.LayoutTransition;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.widget.GridView;
 import android.widget.RelativeLayout;
 
 import com.nibdev.otrtav2.R;
+import com.nibdev.otrtav2.activities.ActivityAllOff;
 import com.nibdev.otrtav2.activities.ActivityMain;
 import com.nibdev.otrtav2.activities.ActivityMain.OnBackKeyListener;
 import com.nibdev.otrtav2.model.database.DBLocal;
@@ -104,6 +106,9 @@ public class FragmentVendorGrid extends Fragment implements OnBackKeyListener {
 		}else if (item.getItemId() == R.id.action_sync){
 			DBRemote.getInstance().startFullSyncThread();
 			return true;
+        } else if (item.getItemId() == R.id.action_all_off) {
+            Intent i = new Intent(getActivity(), ActivityAllOff.class);
+            startActivity(i);
 		}
 		return false;
 	}

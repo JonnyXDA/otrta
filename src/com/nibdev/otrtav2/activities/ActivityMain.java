@@ -34,7 +34,6 @@ import android.widget.ListView;
 
 import com.nibdev.otrtav2.R;
 import com.nibdev.otrtav2.model.NQ;
-import com.nibdev.otrtav2.model.Statics;
 import com.nibdev.otrtav2.model.database.DBLocalHelper;
 import com.nibdev.otrtav2.model.database.DBRemote;
 import com.nibdev.otrtav2.model.tools.ServiceData;
@@ -45,6 +44,7 @@ import com.nibdev.otrtav2.view.custom.ProgressMessageBar;
 import com.nibdev.otrtav2.view.fragments.FragmentDB2DeviceTypeList;
 import com.nibdev.otrtav2.view.fragments.FragmentLearn;
 import com.nibdev.otrtav2.view.fragments.FragmentScriptManager;
+import com.nibdev.otrtav2.view.fragments.FragmentSettings;
 import com.nibdev.otrtav2.view.fragments.FragmentUserLayoutManager;
 import com.nibdev.otrtav2.view.fragments.FragmentVendorGrid;
 
@@ -52,6 +52,7 @@ public class ActivityMain extends FragmentActivity {
 
 	private boolean mServiceBound;
 
+    private OTRTAService mService;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -67,7 +68,6 @@ public class ActivityMain extends FragmentActivity {
 		checkCopyMyDb();
 		checkUnzipDb2();
 		initDrawer();
-		Statics.RefContext = getApplicationContext();
 
 		Intent bindServiceIntent = new Intent(getApplicationContext(), OTRTAService.class);
 		getApplicationContext().startService(bindServiceIntent);
@@ -110,6 +110,7 @@ public class ActivityMain extends FragmentActivity {
 
 	private void onServiceConnected(OTRTAService otrtaservice){
 		mServiceBound = true;
+        mService = otrtaservice;
 		
 		
 		//check Ir blaster
@@ -143,7 +144,7 @@ public class ActivityMain extends FragmentActivity {
 			}
 
 			mInitDone = true;
-			getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentVendorGrid()).commit();
+            getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentVendorGrid()).commit();
 			if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(getResources().getString(R.string.pref_startup_sync), false)){
 				DBRemote.getInstance().startFullSyncThread();
 			}
@@ -259,17 +260,20 @@ public class ActivityMain extends FragmentActivity {
 
 			int actionId = ((Long)arg3).intValue();
 			if (actionId == DrawerAdapter.ACTION_DATABASE){
-				getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentVendorGrid()).commit();
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentVendorGrid()).commit();
 				mDrawerAdapter.setSelectedPosition(arg2);
 
 			}else if (actionId == DrawerAdapter.ACTION_SETTINGS){
-				Intent iSett = new Intent(ActivityMain.this, ActivitySettings.class);
-				startActivityForResult(iSett, 999);
+                FragmentSettings settFrag = new FragmentSettings();
+                settFrag.setService(mService);
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, settFrag).commit();
+                mDrawerAdapter.setSelectedPosition(arg2);
 
 			}else if (actionId == DrawerAdapter.ACTION_LEARN){
-				getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentLearn()).commit();
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentLearn()).commit();
 				mDrawerAdapter.setSelectedPosition(arg2);
 
 			} else if (actionId == DrawerAdapter.ACTION_ALLOFF){
@@ -277,18 +281,18 @@ public class ActivityMain extends FragmentActivity {
 				startActivity(i);
 
 			}else if (actionId == DrawerAdapter.ACTION_SCRIPTS){
-				getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentScriptManager()).commit();
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentScriptManager()).commit();
 				mDrawerAdapter.setSelectedPosition(arg2);
 
 			}else if (actionId == DrawerAdapter.ACTION_LAYOUTS){
-				getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentUserLayoutManager()).commit();
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentUserLayoutManager()).commit();
 				mDrawerAdapter.setSelectedPosition(arg2);
 
 			}else if (actionId == DrawerAdapter.ACTION_DB2BROWSER){
-				getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-				getSupportFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentDB2DeviceTypeList()).commit();
+                getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().beginTransaction().replace(R.id.frame_contet, new FragmentDB2DeviceTypeList()).commit();
 				mDrawerAdapter.setSelectedPosition(arg2);
 
 			}

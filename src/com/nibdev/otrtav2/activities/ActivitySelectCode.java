@@ -35,7 +35,7 @@ public class ActivitySelectCode extends FragmentActivity {
 			}
 		});
 
-		mCodeSelectFrag.show(getSupportFragmentManager(), "fscad");
+        mCodeSelectFrag.show(getFragmentManager(), "fscad");
 
 	}
 
