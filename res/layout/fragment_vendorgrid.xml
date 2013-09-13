@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:ems="10"
-        android:hint="Search.." >
+        android:hint="@string/label_search" >
 
         <requestFocus />
     </AutoCompleteTextView>
@@ -27,7 +27,6 @@
         android:numColumns="2"
         android:paddingRight="20dp"
         tools:listitem="@layout/gvitem_vendor" >
-
     </GridView>
 
 </RelativeLayout>

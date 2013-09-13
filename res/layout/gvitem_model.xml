@@ -15,7 +15,6 @@
         android:layout_weight="1"
         android:lines="1"
         android:minLines="1"
-        android:text="LE42132A32"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -25,7 +24,6 @@
         android:layout_gravity="right"
         android:layout_weight="1"
         android:gravity="bottom"
-        android:text="5 Codes"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textStyle="italic" />
 

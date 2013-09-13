@@ -22,7 +22,6 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:paddingLeft="5dp"
-            android:text="Power 1"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -33,7 +32,6 @@
             android:layout_weight="1"
             android:gravity="right"
             android:paddingRight="5dp"
-            android:text="ID: 1"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 

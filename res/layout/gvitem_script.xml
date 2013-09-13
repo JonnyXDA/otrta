@@ -17,7 +17,6 @@
         android:lines="2"
         android:minLines="2"
         android:padding="5dp"
-        android:text="Script1 Script1"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold|italic" />
 
@@ -36,7 +35,6 @@
             android:gravity="center_vertical"
             android:minLines="3"
             android:padding="5dp"
-            android:text="3 Items"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="italic" />
 
@@ -49,10 +47,8 @@
             android:gravity="right|center_vertical"
             android:minLines="3"
             android:padding="5dp"
-            android:text="ID: 1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="italic" />
-
     </LinearLayout>
 
 </LinearLayout>
