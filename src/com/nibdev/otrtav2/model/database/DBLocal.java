@@ -448,6 +448,30 @@ public class DBLocal{
 		return modelName + "\n" + ctName;
 	}
 
+    public Map<String, Code> getCodesForModel(long modelId) {
+        Cursor c = mDb.rawQuery("select codetypes.name, codes.codedata, codes._id from codes, codeallocations, codetypes where codeallocations.codetype_id = codetypes._id and codeallocations.code_id = codes._id and codeallocations.model_id = ?", new String[] {
+            String.valueOf(modelId)
+        });
+        if (c == null)
+            return null;
+        int iID = c.getColumnIndex(COLUMN_ID);
+        int iData = c.getColumnIndex(COLUMN_CODEDATA);
+        int iName = c.getColumnIndex(COLUMN_NAME);
+        Map<String, Code> ret = new HashMap<String, Code>();
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+            do {
+                Code code = new Code(c.getInt(iID), c.getString(iData));
+                ret.put(c.getString(iName), code);
+            } while (c.moveToNext());
+
+            c.close();
+            return ret;
+        } else {
+            return null;
+        }
+    }
+
 	public Map<String, Object> getModelFromCodeAllocationId(int caId) {
 		int modelId = -1;
 		Cursor c = mDb.query(TABLE_CODEALLOCATIONS, new String[]{COLUMN_MODELID}, COLUMN_ID + " =?", new String[]{"" + caId}, null, null, null);

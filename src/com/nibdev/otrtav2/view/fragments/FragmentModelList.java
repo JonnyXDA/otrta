@@ -52,7 +52,8 @@ public class FragmentModelList extends Fragment {
 			Bundle args = new Bundle();
 			args.putInt("ID", ((Long)id).intValue());
 			args.putString("NAME", name);
-			FragmentCodeList fcl = new FragmentCodeList();
+            // FragmentCodeList fcl = new FragmentCodeList();
+            FragmentVirtualController fcl = new FragmentVirtualController();
 			fcl.setArguments(args);
 			getFragmentManager().beginTransaction().replace(R.id.frame_contet, fcl).addToBackStack(null).commit();
 		}

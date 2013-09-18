@@ -178,7 +178,8 @@ public class FragmentVendorGrid extends Fragment implements OnBackKeyListener {
 				Bundle args = new Bundle();
 				args.putInt("ID", modId);
 				args.putString("NAME", tse.getName());
-				FragmentCodeList fcl = new FragmentCodeList();
+                // FragmentCodeList fcl = new FragmentCodeList();
+                FragmentVirtualController fcl = new FragmentVirtualController();
 				fcl.setArguments(args);
 				getFragmentManager().beginTransaction().replace(R.id.frame_contet, fcl).addToBackStack(null).commit();
 			}
