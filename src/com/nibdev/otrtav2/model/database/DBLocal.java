@@ -448,7 +448,7 @@ public class DBLocal{
 		return modelName + "\n" + ctName;
 	}
 
-    public Map<String, Code> getCodesForModel(long modelId) {
+    public Map<String, List<Code>> getCodesForModel(long modelId) {
         Cursor c = mDb.rawQuery("select codetypes.name, codes.codedata, codes._id from codes, codeallocations, codetypes where codeallocations.codetype_id = codetypes._id and codeallocations.code_id = codes._id and codeallocations.model_id = ?", new String[] {
             String.valueOf(modelId)
         });
@@ -457,12 +457,16 @@ public class DBLocal{
         int iID = c.getColumnIndex(COLUMN_ID);
         int iData = c.getColumnIndex(COLUMN_CODEDATA);
         int iName = c.getColumnIndex(COLUMN_NAME);
-        Map<String, Code> ret = new HashMap<String, Code>();
+        Map<String, List<Code>> ret = new HashMap<String, List<Code>>();
         if (c.getCount() > 0) {
             c.moveToFirst();
             do {
+                final String name = c.getString(iName);
                 Code code = new Code(c.getInt(iID), c.getString(iData));
-                ret.put(c.getString(iName), code);
+                if (ret.get(name) == null) {
+                    ret.put(name, new ArrayList<Code>());
+                }
+                ret.get(name).add(code);
             } while (c.moveToNext());
 
             c.close();
