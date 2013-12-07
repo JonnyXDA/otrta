@@ -1,13 +1,16 @@
 package com.nibdev.otrtav2.view.fragments;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -18,7 +21,7 @@ import com.nibdev.otrtav2.service.OTRTAService;
 
 public class FragmentVirtualController extends Fragment {
 
-    Map<String, Code> mButtons;
+    Map<String, List<Code>> mButtons;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,12 +38,39 @@ public class FragmentVirtualController extends Fragment {
         for (final String key : keys) {
             Button b = new Button(getActivity());
             b.setText(key);
-            b.setOnClickListener(new OnClickListener() {
-
+            b.setOnTouchListener(new OnTouchListener() {
+                
                 @Override
-                public void onClick(View v) {
-                    Code c = mButtons.get(key);
-                    OTRTAService.getInstance().getIrSender().sendCode(c.getData(), false);
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN: {
+                            Code c = mButtons.get(key).get(0);
+                            OTRTAService.getInstance().getIrSender().sendCode(c.getData(), true);
+                            v.getBackground().setColorFilter(0xFF33B5E5, PorterDuff.Mode.SRC_ATOP);
+                            v.invalidate();
+                            break;
+                        }
+                        case MotionEvent.ACTION_UP: {
+                            OTRTAService.getInstance().getIrSender().cancelCode();
+                            v.getBackground().clearColorFilter();
+                            v.invalidate();
+                            break;
+                        }
+                        case MotionEvent.ACTION_OUTSIDE: {
+                            OTRTAService.getInstance().getIrSender().cancelCode();
+                            v.getBackground().clearColorFilter();
+                            v.invalidate();
+                            break;
+                        }
+                        case MotionEvent.ACTION_CANCEL: {
+                            OTRTAService.getInstance().getIrSender().cancelCode();
+                            v.getBackground().clearColorFilter();
+                            v.invalidate();
+                            break;
+                        }
+
+                        }
+                        return true;
                 }
             });
             gl.addView(b);
